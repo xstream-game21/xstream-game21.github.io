@@ -201,10 +201,12 @@ nav a {
     background-repeat: no-repeat;
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
+	transform: translateY(50);
 }
 
 .featured-products.visible {
     opacity: 1;
+	animation: fadeInUp 0.8s ease-out forwards;
 }
 
 /* BGPIC for GPU PRODUCT */
@@ -296,3 +298,4 @@ footer {
 
 
 /* dami deputa */
+
