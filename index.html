@@ -182,26 +182,21 @@
             });
         });
 
-        // Scroll Animation 
-        function isElementInViewport(el) {
-            const rect = el.getBoundingClientRect();
-            return (
-                rect.top <= (window.innerHeight * 0.8) &&
-                rect.bottom >= 0
-            );
-        }
-
-        function handleScrollAnimation() {
-            const sections = document.querySelectorAll('.featured-products');
-            sections.forEach(section => {
-                if (isElementInViewport(section) && !section.classList.contains('visible')) {
-                    section.classList.add('visible');
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
                 }
             });
-        }
+        }, {
+            threshold: 0.1 // Optional: trigger when 10% of the element is visible
+        });
 
-        window.addEventListener('scroll', handleScrollAnimation);
-        setTimeout(handleScrollAnimation, 100);
+        const products = document.querySelectorAll('.product');
+        products.forEach((el) => observer.observe(el));
     </script>
 
 </body>
