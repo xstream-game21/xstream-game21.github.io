@@ -118,6 +118,14 @@ nav a.active {
     flex: 1;
 }
 
+.item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
 .item-name {
     font-weight: bold;
     color: #333;

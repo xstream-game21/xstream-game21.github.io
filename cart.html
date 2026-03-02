@@ -20,7 +20,7 @@
         <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
         <a href="Aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
         <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a>
     </nav>
 
     <!-- Main Container -->
@@ -65,33 +65,47 @@
     </footer>
 
     <script>
-        let cart = {};
+        function getCart() {
+            return JSON.parse(sessionStorage.getItem('cartData')) || {};
+        }
 
-        function addToCart(name, price) {
-            if (cart[name]) {
-                cart[name].quantity++;
-            } else {
-                cart[name] = { price: price, quantity: 1 };
+        function saveCart(cart) {
+            sessionStorage.setItem('cartData', JSON.stringify(cart));
+            updateCartCount();
+            displayCart(); // Re-render the cart display after any change
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            let totalItems = 0;
+            for (const item in cart) {
+                totalItems += cart[item].quantity;
             }
-            displayCart();
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.innerText = totalItems;
+            }
         }
 
         function removeFromCart(name) {
+            const cart = getCart();
             delete cart[name];
-            displayCart();
+            saveCart(cart);
         }
 
         function updateQuantity(name, change) {
+            const cart = getCart();
             if (cart[name]) {
                 cart[name].quantity += change;
                 if (cart[name].quantity <= 0) {
                     delete cart[name];
                 }
             }
-            displayCart();
+            saveCart(cart);
         }
 
         function displayCart() {
+            const cart = getCart();
             let cartItems = document.getElementById("cart-items");
             let subtotal = 0;
             cartItems.innerHTML = "";
@@ -118,6 +132,7 @@
 
                 cartItems.innerHTML += `
                     <div class="cart-item">
+                        <img src="${cart[item].image}" alt="${item}" class="item-image">
                         <div class="item-details">
                             <div class="item-name">${item}</div>
                             <div class="item-price">₱${cart[item].price.toLocaleString('en-PH')}</div>
@@ -137,7 +152,6 @@
                 `;
             }
 
-            // codeblock for calculating the total cost of items
             const shipping = subtotal > 0 ? 250 : 0;
             const tax = subtotal * 0.12; // 12% VAT
             const total = subtotal + shipping + tax;
@@ -151,27 +165,29 @@
         }
 
         function proceedToCheckout() {
+            const cart = getCart();
             if (Object.keys(cart).length === 0) {
                 alert("Your cart is empty!");
             } else {
-                // Save cart data to sessionStorage (no database yet. Local HTML storage lang)
-                sessionStorage.setItem('cartData', JSON.stringify(cart));
-                // Redirect to payment page
+                // Cart data is already in sessionStorage, just redirect
                 window.location.href = 'payment.html';
             }
         }
 
-        // START(initialize) cart display
-        displayCart();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize cart display and count on page load
+            displayCart();
+            updateCartCount();
 
-        // Active page highlighting
-        const navLinks = document.querySelectorAll('nav a');
-        const currentPage = window.location.href;
+            // Active page highlighting
+            const navLinks = document.querySelectorAll('nav a');
+            const currentPage = window.location.href;
 
-        navLinks.forEach(link => {
-            if (link.href === currentPage) {
-                link.classList.add('active');
-            }
+            navLinks.forEach(link => {
+                if (link.href === currentPage) {
+                    link.classList.add('active');
+                }
+            });
         });
     </script>
 

@@ -75,35 +75,35 @@
             <h3>MSI VENTUS RTX 3050 8GB | GDDR6</h3>
 			<hr><hr>
             <h3>₱11,159.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('MSI VENTUS RTX 3050 8GB | GDDR6', 11159, 'gpus/RTX3050.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="gpus\RTX5090.png" alt="Product 2">
             <h3>GIGABYTE RTX™ 5090 WINDFORCE | 32GB GDDR7</h3>
 			<hr><hr>
             <h3>₱172,000.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('GIGABYTE RTX™ 5090 WINDFORCE | 32GB GDDR7', 172000, 'gpus/RTX5090.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="gpus\RTX4060.png" alt="Product 3">
             <h3>GALAX RTX 4060 Ti 8GB GDDR6</h3>
 			<hr><hr>
             <h3>₱30,299.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('GALAX RTX 4060 Ti 8GB GDDR6', 30299, 'gpus/RTX4060.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="gpus\RTX4070.png" alt="Product 4">
             <h3>ASUS TUF RTX 4070 OC 12GB GDDR6X</h3>
 			<hr><hr>
             <h3>₱45,499.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('ASUS TUF RTX 4070 OC 12GB GDDR6X', 45499, 'gpus/RTX4070.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="gpus\RTX4080.png" alt="Product 5">
             <h3>MSI SUPRIM RTX 4080 16GB GDDR6X</h3>
 			<hr><hr>
             <h3>₱68,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('MSI SUPRIM RTX 4080 16GB GDDR6X', 68999, 'gpus/RTX4080.png')">Add to Cart</button>
         </div>
     </section>
 
@@ -118,35 +118,35 @@
             <h3>ASUS ROG Strix G16 | RTX 4090 | 16GB RAM</h3>
 			<hr><hr>
             <h3>₱199,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('ASUS ROG Strix G16 | RTX 4090 | 16GB RAM', 199999, 'laptops/ROG16.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="laptops\MSIGE78.png" alt="Gaming Laptop 2">
             <h3>MSI Raider GE78 | RTX 4080 | 32GB RAM</h3>
 			<hr><hr>
             <h3>₱159,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('MSI Raider GE78 | RTX 4080 | 32GB RAM', 159999, 'laptops/MSIGE78.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="laptops\PREDATORTRITON.png" alt="Gaming Laptop 3">
             <h3>Acer Predator Triton | RTX 4070 | 16GB RAM</h3>
 			<hr><hr>
             <h3>₱99,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('Acer Predator Triton | RTX 4070 | 16GB RAM', 99999, 'laptops/PREDATORTRITON.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="laptops\ALIENWAREM18.png" alt="Gaming Laptop 4">
             <h3>DELL Alienware M18 | RTX 4090 | 32GB RAM</h3>
 			<hr><hr>
             <h3>₱219,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('DELL Alienware M18 | RTX 4090 | 32GB RAM', 219999, 'laptops/ALIENWAREM18.png')">Add to Cart</button>
         </div>
         <div class="product">
             <img src="laptops\LENOVOLEGION9i.png" alt="Gaming Laptop 5">
             <h3>LENOVO Legion Pro 9i | RTX 4080 | 32GB RAM</h3>
 			<hr><hr>
             <h3>₱179,999.00</h3>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('LENOVO Legion Pro 9i | RTX 4080 | 32GB RAM', 179999, 'laptops/LENOVOLEGION9i.png')">Add to Cart</button>
         </div>
     </section>
 
@@ -207,6 +207,42 @@
                 link.classList.add('active');
             }
         });
+
+        // Cart Functions
+        function getCart() {
+            return JSON.parse(sessionStorage.getItem('cartData')) || {};
+        }
+
+        function saveCart(cart) {
+            sessionStorage.setItem('cartData', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function addToCart(name, price, imageSrc) {
+            const cart = getCart();
+            if (cart[name]) {
+                cart[name].quantity++;
+            } else {
+                cart[name] = { price: price, quantity: 1, image: imageSrc };
+            }
+            saveCart(cart);
+            alert(`"${name}" has been added to your cart.`);
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            let totalItems = 0;
+            for (const item in cart) {
+                totalItems += cart[item].quantity;
+            }
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.innerText = totalItems;
+            }
+        }
+
+        // Update cart count on page load
+        updateCartCount();
     </script>
 
 </body>
