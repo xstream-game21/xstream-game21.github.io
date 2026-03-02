@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UrbanCart Marketplace - GPU Store</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .cart {
+            background: white;
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🖥 UrbanCart GPU Store</h1>
+
+<div class="products">
+
+    <div class="product">
+        <img src="GPU/RTX3050.png">
+        <h3>RTX 3050 - ₱250</h3>
+        <button onclick="addToCart('RTX 3050', 250)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="GPU/RTX3090TI.png">
+        <h3>RTX 3090 TI - ₱900</h3>
+        <button onclick="addToCart('RTX 3090 TI', 900)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="GPU/RTX4060.png">
+        <h3>RTX 4060 - ₱300</h3>
+        <button onclick="addToCart('RTX 4060', 300)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="GPU/RTX4070.png">
+        <h3>RTX 4070 - ₱500</h3>
+        <button onclick="addToCart('RTX 4070', 500)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="GPU/RTX4080.png">
+        <h3>RTX 4080 - ₱700</h3>
+        <button onclick="addToCart('RTX 4080', 700)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="GPU/RTX5090.png">
+        <h3>RTX 5090 - ₱1500</h3>
+        <button onclick="addToCart('RTX 5090', 1500)">Add to Cart</button>
+    </div>
+
+</div>
+
+<div class="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="total" id="total"></div>
+    <button onclick="checkout()">Proceed to Order</button>
+</div>
+
+<script>
+    let cart = {};
+
+    function addToCart(name, price) {
+        if (cart[name]) {
+            cart[name].quantity++;
+        } else {
+            cart[name] = { price: price, quantity: 1 };
+        }
+        displayCart();
+    }
+
+    function removeFromCart(name) {
+        if (cart[name]) {
+            cart[name].quantity--;
+            if (cart[name].quantity <= 0) {
+                delete cart[name];
+            }
+        }
+        displayCart();
+    }
+
+    function displayCart() {
+        let cartItems = document.getElementById("cart-items");
+        let total = 0;
+        cartItems.innerHTML = "";
+
+        for (let item in cart) {
+            let itemTotal = cart[item].price * cart[item].quantity;
+            total += itemTotal;
+
+            cartItems.innerHTML += `
+                <p>
+                    ${item} - ₱${cart[item].price} x ${cart[item].quantity}
+                    <button onclick="addToCart('${item}', ${cart[item].price})">+</button>
+                    <button onclick="removeFromCart('${item}')">-</button>
+                </p>
+            `;
+        }
+
+        document.getElementById("total").innerText = "Total: ₱" + total;
+    }
+
+    function checkout() {
+        if (Object.keys(cart).length === 0) {
+            alert("Your cart is empty!");
+        } else {
+            alert("Order placed successfully! Thank you for shopping at UrbanCart Marketplace!");
+            cart = {};
+            displayCart();
+        }
+    }
+</script>
+
+</body>
+</html>

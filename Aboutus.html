@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphicInfinity - About Us</title>
+	<link rel="stylesheet" href="about_usCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+	<script>
+        // Force visible class on load for sections that are already in view
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.mission-section, .about-section, .why-choose-section, .contact-section, .social-section, .feature-card').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+    </script>
+	
+<body>
+
+    <header>
+        <h1>About GraphicInfinity</h1>
+    </header>
+
+    <!-- Hamburger Menu Config -->
+    <div class="hamburger-container">
+        <button class="hamburger-btn" id="hamburgerBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <div class="menu-profile-section">
+                <img src="gameprofile.png" alt="Profile Picture" class="menu-profile-pic">
+                <div class="menu-profile-info">
+                    <p class="menu-username">Admin</p>
+                    <p class="menu-email">Admin@gmail.com</p>
+                </div>
+            </div>
+            
+            <hr class="menu-divider">
+            
+            <a href="profilepage.html" class="menu-item">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-box"></i> Orders
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-map-marker-alt"></i> Address
+            </a>
+            
+            <hr class="menu-divider">
+            
+            <a href="#" class="menu-item logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- navigation section -->
+    <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </nav>
+
+    <!-- Mission Statement Section -->
+    <section class="mission-section">
+        <div class="mission-content">
+            <h2>Our Mission</h2>
+            <p class="mission-quote">"We are focused on gaming laptops and GPU's for gamers and professionals."</p>
+            <p class="mission-description">
+                At GraphicInfinity, we believe that every gamer and professional deserves access to high-quality, 
+                and top performance hardware. Our mission is to provide the best selection of gaming laptops and GPUs 
+                at competitive prices, helping you build the perfect setup for your needs.
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-content">
+            <h2>About Us</h2>
+            <p>
+                Founded in 2026, GraphicInfinity has been dedicated to providing top-tier gaming hardware and components 
+                to enthusiasts, gamers, and professionals nationwide. We carefully curate our product selection to ensure 
+                quality and performance in every item we offer.
+            </p>
+            <p>
+                Our team of experts is passionate about gaming and technology. We understand what gamers and professionals 
+                need, and we strive to deliver products that exceed expectations.
+            </p>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section">
+        <h2>Why Choose GraphicInfinity?</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <i class="fas fa-star"></i>
+                <h3>Premium Quality</h3>
+                <p>We stock the best brands and latest models</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shipping-fast"></i>
+                <h3>Fast Shipping</h3>
+                <p>Quick and reliable delivery to your doorstep</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-headset"></i>
+                <h3>Expert Support</h3>
+                <p>Our team is ready to help with expert advice</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Shopping</h3>
+                <p>Safe and secure payment processing</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Feedback Section -->
+    <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <p class="contact-intro">Have questions, feedback, or need assistance? We'd love to hear from you!</p>
+        
+        <div class="contact-container">
+            <!-- Contact Infos (if may gusto pa kayo i add like support, gawa lang uli new <p></p> tas email -->
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>
+                            <strong>General Inquiries:</strong> <a href="mailto:graphicinfinityinfo@gmail.com">graphicinfinityinfo@gmail.com</a>
+                        </p>                     
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+63 991 993 9693</p>
+                        <p>Monday - Friday: 10:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>1600, Pasig City. Caniogan</p>
+                        <p>Metro Manila, Philippines 1600</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Business Hours</h4>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        <p>Saturday: 10:00 AM - 4:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback section and the form -->
+            <div class="feedback-form">
+                <h3>Send us Feedback</h3>
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="feedback">General Feedback</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="suggestion">Suggestion</option>
+                            <option value="request">Product Request</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Your message here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Feedback</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Accounts, account will be created soon -->
+    <section class="social-section">
+        <h2>Follow Us</h2>
+        <p>Stay updated with our latest products and news</p>
+        <div class="social-links">
+            <a href="#" class="social-link" title="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="social-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
+    </footer>
+
+    <!-- JavaScript and also ung animation sa baba: diko alam if tama pero may simple animation na sya -->
+        <script>
+        // Hamburger Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+
+        hamburgerBtn.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            hamburgerBtn.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.hamburger-container')) {
+                hamburgerMenu.classList.remove('active');
+                hamburgerBtn.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking a menu item
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                hamburgerBtn.classList.remove('active');
+            });
+        });
+
+        // Feedback Form Handler
+        const feedbackForm = document.getElementById('feedbackForm');
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            if (name && email && subject && message) {
+                alert('Thank you for your feedback! We will get back to you soon.');
+                feedbackForm.reset();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Active page highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const currentPage = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // Scroll-driven using CSS
+		/* kinopya dito: https://www.youtube.com/watch?v=0TnO1GzKWPc */
+    </script>
+
+</body>
+</html>

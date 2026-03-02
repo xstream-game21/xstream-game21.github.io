@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphicInfinity - My Profile</title>
+    <link rel="stylesheet" href="profilepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- for header, check comment sa css if may babaguhin -->
+    <header>
+        <h1>My Profile</h1>
+    </header>
+
+    <!-- NAVI SECTION -->
+    <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="Aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </nav>
+
+    <!-- MAIN CONTAINER SECTION -->
+    <div class="container">
+
+        <!-- PROFILE HEADER SECTION -->
+        <div class="profile-header fade-in">
+            <div class="profile-cover"></div>
+            <div class="profile-info">
+                <img src="gameprofile.png" alt="Profile Picture" class="profile-pic slide-in-down">
+                <div class="profile-details slide-in-up">
+                    <h2 class="profile-name">Graphic-Infinity</h2>
+                    <p class="profile-status">
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUSTOMER INFO SECTION -->
+        <div class="content-wrapper">
+
+            <!-- LEFT SECTION - PERSONAL INFO -->
+            <div class="info-section slide-in-left">
+                <div class="section-card">
+                    <div class="card-header">
+                        <i class="fas fa-id-card"></i>
+                        <h3>Personal Information</h3>
+                    </div>
+                    <div class="border-line"></div>
+
+                    <div class="info-group">
+                        <label>Full Name</label>
+                        <div class="info-value">
+                            <i class="fas fa-user"></i>
+                            <span>Graphic-Infinity</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Age</label>
+                        <div class="info-value">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span>20</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Gender</label>
+                        <div class="info-value">
+                            <i class="fas fa-mars"></i>
+                            <span>Male</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Email</label>
+                        <div class="info-value">
+                            <i class="fas fa-envelope"></i>
+                            <span>graphicinfinity@gmail.com</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-edit" onclick="editProfile()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT SECTION - CONTACT & ADDRESS -->
+            <div class="info-section slide-in-right">
+                
+                <!-- CONTACT (NO EMAIL) PARA MAS MABILIS  -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <i class="fas fa-phone"></i>
+                        <h3>Contact Information</h3>
+                    </div>
+                    <div class="border-line"></div>
+
+                    <div class="info-group">
+                        <label>Phone Number</label>
+                        <div class="info-value">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>+63 991 993 9693</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-edit" onclick="editContact()">
+                        <i class="fas fa-edit"></i> Edit Contact
+                    </button>
+                </div>
+
+                <!-- DELIVERY ADDRESS (CAN BE CONFIGURED SA ADDRESS) -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Delivery Address</h3>
+                    </div>
+                    <div class="border-line"></div>
+
+                    <div class="address-card">
+                        <div class="address-type">
+                            <i class="fas fa-home"></i>
+                            <span>Home Address</span>
+                        </div>
+                        <p class="address-text">1600 Caniogan, Pasig City</p>
+                        <p class="address-text">Metro Manila, Philippines 1600</p>
+                    </div>
+
+                    <button class="btn btn-edit" onclick="editAddress()">
+                        <i class="fas fa-edit"></i> Edit Address
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="action-section fade-in-delayed">
+            <button class="btn btn-primary">
+                <i class="fas fa-history"></i> View Order History
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-lock"></i> Change Password
+            </button>
+            <button class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
+    </footer>
+
+    <script>
+        // Active page highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const currentPage = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+
+    <!-- MODALS -->
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content slide-in-up">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="close-btn" onclick="closeModal('editProfileModal')">&times;</button>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" value="John Doe" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" value="25" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select required>
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="john.doe@email.com" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Contact Modal -->
+    <div id="editContactModal" class="modal">
+        <div class="modal-content slide-in-up">
+            <div class="modal-header">
+                <h2>Edit Contact</h2>
+                <button class="close-btn" onclick="closeModal('editContactModal')">&times;</button>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" value="+63 991 993 9693" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editContactModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Address Modal -->
+    <div id="editAddressModal" class="modal">
+        <div class="modal-content slide-in-up">
+            <div class="modal-header">
+                <h2>Edit Delivery Address</h2>
+                <button class="close-btn" onclick="closeModal('editAddressModal')">&times;</button>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" value="1600 Caniogan, Pasig City" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" value="Pasig City" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" value="1600" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Region</label>
+                    <input type="text" value="Metro Manila, Philippines" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editAddressModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Page Load Animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Edit Functions
+        function editProfile() {
+            openModal('editProfileModal');
+        }
+
+        function editContact() {
+            openModal('editContactModal');
+        }
+
+        function editAddress() {
+            openModal('editAddressModal');
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Form submissions
+        document.querySelectorAll('.modal-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Changes saved successfully!');
+                this.closest('.modal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+
+</body>
+</html>

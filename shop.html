@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphicInfinity - Shop</title>
+    <link rel="stylesheet" href="shopCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>GraphicInfinity Shop</h1>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html" class="active"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="Aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a>
+    </nav>
+
+    <!-- MAIN CONTAINER (taas ng products) -->
+    <div class="container">
+
+        <!-- SIDEBAR - FILTERS -->
+        <aside class="sidebar fade-in">
+            <div class="filter-section">
+                <h3><i class="fas fa-filter"></i> Filter Products</h3>
+                <div class="border-line"></div>
+
+                <!-- CATEGORY FILTER -->
+                <div class="filter-group">
+                    <label class="filter-title">
+                        <i class="fas fa-list"></i> Category
+                    </label>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="radio" name="category" value="all" checked>
+                            <span>All Products</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="radio" name="category" value="gpu">
+                            <span>GPUs</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="radio" name="category" value="cpu">
+                            <span>CPUs</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="radio" name="category" value="laptop">
+                            <span>Gaming Laptops</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- PRICE FILTER (reference ko ay easypc) -->
+                <div class="filter-group">
+                    <label class="filter-title">
+                        <i class="fas fa-tag"></i> Price Range
+                    </label>
+                    <div class="price-range">
+                        <input type="range" min="0" max="250000" value="250000" id="priceRange">
+                        <p>₱0 - ₱<span id="priceValue">250000</span></p>
+                    </div>
+                </div>
+
+                <!-- SORT FILTER (also from easypc with our own style) -->
+                <div class="filter-group">
+                    <label class="filter-title">
+                        <i class="fas fa-sort"></i> Sort By
+                    </label>
+                    <select id="sortBy" class="sort-select">
+                        <option value="default">Default</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name">Product Name</option>
+                    </select>
+                </div>
+
+                <button class="btn-reset" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i> Reset Filters
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <section class="shop-section slide-in-right">
+
+            <!-- SHOP HEADER -->
+            <div class="shop-header">
+                <h2>Gaming Hardware Store</h2>
+                <p class="product-count">Showing <span id="productCount">0</span> products</p>
+            </div>
+
+            <!-- PRODUCTS CONTAINER -->
+            <div class="products-wrapper">
+
+                <!-- GPU SECTION -->
+                <div class="category-section" data-category="gpu">
+                    <div class="category-header">
+                        <div class="category-title">
+                            <i class="fas fa-microchip"></i>
+                            <h2>GPUs</h2>
+                        </div>
+                        <div class="category-divider"></div>
+                    </div>
+
+                    <div class="products-container">
+                        <div class="product-card" data-price="25000" data-category="gpu">
+                            <div class="product-image">
+                                <img src="gpus/RTX3050.png" alt="RTX 3050">
+                                <span class="product-badge">GPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>MSI VENTUS RTX 3050 8GB</h3>
+                                <p class="product-specs">8GB GDDR6 • 128-bit</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱25,000</h4>
+                                    <button class="btn-add" onclick="addToCart('MSI VENTUS RTX 3050', 25000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="30299" data-category="gpu">
+                            <div class="product-image">
+                                <img src="gpus/RTX4060.png" alt="RTX 4060">
+                                <span class="product-badge">GPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>GALAX RTX 4060 Ti 8GB</h3>
+                                <p class="product-specs">8GB GDDR6 • 128-bit</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱30,299</h4>
+                                    <button class="btn-add" onclick="addToCart('GALAX RTX 4060 Ti', 30299)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="45499" data-category="gpu">
+                            <div class="product-image">
+                                <img src="gpus/RTX4070.png" alt="RTX 4070">
+                                <span class="product-badge">GPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>ASUS TUF RTX 4070 OC 12GB</h3>
+                                <p class="product-specs">12GB GDDR6X • 192-bit</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱45,499</h4>
+                                    <button class="btn-add" onclick="addToCart('ASUS TUF RTX 4070', 45499)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="68999" data-category="gpu">
+                            <div class="product-image">
+                                <img src="gpus/RTX4080.png" alt="RTX 4080">
+                                <span class="product-badge">GPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>MSI SUPRIM RTX 4080 16GB</h3>
+                                <p class="product-specs">16GB GDDR6X • 256-bit</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱68,999</h4>
+                                    <button class="btn-add" onclick="addToCart('MSI SUPRIM RTX 4080', 68999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="172000" data-category="gpu">
+                            <div class="product-image">
+                                <img src="gpus/RTX5090.png" alt="RTX 5090">
+                                <span class="product-badge">GPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>GIGABYTE RTX 5090 WINDFORCE 32GB</h3>
+                                <p class="product-specs">32GB GDDR7 • 576-bit</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱172,000</h4>
+                                    <button class="btn-add" onclick="addToCart('GIGABYTE RTX 5090', 172000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CPU SECTION -->
+                <div class="category-section" data-category="cpu">
+                    <div class="category-header">
+                        <div class="category-title">
+                            <i class="fas fa-server"></i>
+                            <h2>CPUs</h2>
+                        </div>
+                        <div class="category-divider"></div>
+                    </div>
+
+                    <div class="products-container">
+                        <div class="product-card" data-price="22500" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/ryzen3d.png" alt="Ryzen 9 9950X3D">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>AMD Ryzen 9 9950X3D</h3>
+                                <p class="product-specs">16-Core • 5.7GHz • 3D V-Cache</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱22,500</h4>
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X3D', 22500)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="35000" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/intelcore.png" alt="Intel Core i9-14900KF">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>Intel Core i9-14900KF</h3>
+                                <p class="product-specs">24-Core • 6.0GHz • LGA1700</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱35,000</h4>
+                                    <button class="btn-add" onclick="addToCart('Intel Core i9-14900KF', 35000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="35000" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/ryzen.png" alt="Ryzen 9 9950X">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>AMD Ryzen 9 9950X</h3>
+                                <p class="product-specs">16-Core • 5.7GHz • AM5</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱35,000</h4>
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X', 35000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="18000" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/9600X.png" alt="Ryzen 5 9600X">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>AMD Ryzen 5 9600X</h3>
+                                <p class="product-specs">6-Core • 5.4GHz • AM5</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱18,000</h4>
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 5 9600X', 18000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="28000" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/13600K.png" alt="Core i5-13600K">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>Intel Core i5-13600K</h3>
+                                <p class="product-specs">14-Core • 5.1GHz • LGA1700</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱28,000</h4>
+                                    <button class="btn-add" onclick="addToCart('Intel Core i5-13600K', 28000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="32000" data-category="cpu">
+                            <div class="product-image">
+                                <img src="cpus/14600k.png" alt="Core i5-14600K">
+                                <span class="product-badge">CPU</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>Intel Core i5-14600K</h3>
+                                <p class="product-specs">14-Core • 5.3GHz • LGA1700</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱32,000</h4>
+                                    <button class="btn-add" onclick="addToCart('Intel Core i5-14600K', 32000)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAPTOPS SECTION -->
+                <div class="category-section" data-category="laptop">
+                    <div class="category-header">
+                        <div class="category-title">
+                            <i class="fas fa-laptop"></i>
+                            <h2>Gaming Laptops</h2>
+                        </div>
+                        <div class="category-divider"></div>
+                    </div>
+
+                    <div class="products-container">
+                        <div class="product-card" data-price="99999" data-category="laptop">
+                            <div class="product-image">
+                                <img src="laptops/PREDATORTRITON.png" alt="Predator Triton">
+                                <span class="product-badge">LAPTOP</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>Acer Predator Triton</h3>
+                                <p class="product-specs">RTX 4070 • 16GB RAM • 1TB SSD</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱99,999</h4>
+                                    <button class="btn-add" onclick="addToCart('Acer Predator Triton', 99999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="159999" data-category="laptop">
+                            <div class="product-image">
+                                <img src="laptops/MSIGE78.png" alt="MSI Raider GE78">
+                                <span class="product-badge">LAPTOP</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>MSI Raider GE78</h3>
+                                <p class="product-specs">RTX 4080 • 32GB RAM • 1TB SSD</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱159,999</h4>
+                                    <button class="btn-add" onclick="addToCart('MSI Raider GE78', 159999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="179999" data-category="laptop">
+                            <div class="product-image">
+                                <img src="laptops/LENOVOLEGION9i.png" alt="LENOVO Legion Pro 9i">
+                                <span class="product-badge">LAPTOP</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>LENOVO Legion Pro 9i</h3>
+                                <p class="product-specs">RTX 4080 • 32GB RAM • 1TB SSD</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱179,999</h4>
+                                    <button class="btn-add" onclick="addToCart('LENOVO Legion Pro 9i', 179999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="199999" data-category="laptop">
+                            <div class="product-image">
+                                <img src="laptops/ROG16.png" alt="ASUS ROG Strix G16">
+                                <span class="product-badge">LAPTOP</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>ASUS ROG Strix G16</h3>
+                                <p class="product-specs">RTX 4090 • 16GB RAM • 1TB SSD</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱199,999</h4>
+                                    <button class="btn-add" onclick="addToCart('ASUS ROG Strix G16', 199999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-price="219999" data-category="laptop">
+                            <div class="product-image">
+                                <img src="laptops/ALIENWAREM18.png" alt="DELL Alienware M18">
+                                <span class="product-badge">LAPTOP</span>
+                            </div>
+                            <div class="product-info">
+                                <h3>DELL Alienware M18</h3>
+                                <p class="product-specs">RTX 4090 • 32GB RAM • 2TB SSD</p>
+                                <div class="product-footer">
+                                    <h4 class="price">₱219,999</h4>
+                                    <button class="btn-add" onclick="addToCart('DELL Alienware M18', 219999)">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
+    </footer>
+
+    <script>
+        let cartCount = 0;
+
+        // Add to cart function
+        function addToCart(productName, price) {
+            cartCount++;
+            document.getElementById("cartCount").innerText = cartCount;
+            
+            // Show feedback
+            const event = new Event('itemAdded');
+            document.dispatchEvent(event);
+            
+            // Optional: Show notification
+            showNotification(`${productName} added to cart!`);
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Category filter
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', filterProducts);
+        });
+
+        // Price range filter
+        document.getElementById('priceRange').addEventListener('input', function() {
+            document.getElementById('priceValue').innerText = this.value.toLocaleString('en-PH');
+            filterProducts();
+        });
+
+        // Sort by
+        document.getElementById('sortBy').addEventListener('change', sortProducts);
+
+        function filterProducts() {
+            const selectedCategory = document.querySelector('input[name="category"]:checked').value;
+            const maxPrice = parseInt(document.getElementById('priceRange').value);
+            let visibleCount = 0;
+
+            document.querySelectorAll('.product-card').forEach(card => {
+                const cardCategory = card.dataset.category;
+                const cardPrice = parseInt(card.dataset.price);
+                
+                let isVisible = true;
+
+                if (selectedCategory !== 'all' && cardCategory !== selectedCategory) {
+                    isVisible = false;
+                }
+
+                if (cardPrice > maxPrice) {
+                    isVisible = false;
+                }
+
+                card.style.display = isVisible ? 'flex' : 'none';
+                
+                if (isVisible) {
+                    visibleCount++;
+                    card.style.animation = 'fadeIn 0.3s ease-out';
+                }
+            });
+
+            document.getElementById('productCount').innerText = visibleCount;
+        }
+
+        function sortProducts() {
+            const sortValue = document.getElementById('sortBy').value;
+            const containers = document.querySelectorAll('.products-container');
+
+            containers.forEach(container => {
+                const cards = Array.from(container.querySelectorAll('.product-card:not([style*="display: none"])'));
+                
+                if (sortValue === 'price-asc') {
+                    cards.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+                } else if (sortValue === 'price-desc') {
+                    cards.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+                } else if (sortValue === 'name') {
+                    cards.sort((a, b) => a.querySelector('h3').innerText.localeCompare(b.querySelector('h3').innerText));
+                }
+
+                cards.forEach(card => container.appendChild(card));
+            });
+        }
+
+        function resetFilters() {
+            document.querySelector('input[value="all"]').checked = true;
+            document.getElementById('priceRange').value = 250000;
+            document.getElementById('priceValue').innerText = '250000';
+            document.getElementById('sortBy').value = 'default';
+            filterProducts();
+        }
+
+        // Initial count
+        filterProducts();
+    </script>
+
+    <script>
+        // Active page highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const currentPage = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

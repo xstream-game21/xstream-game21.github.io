@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphicInfinity - Shopping Cart</title>
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>GraphicInfinity - Shopping Cart</h1>
+    </header>
+
+    <!-- Navigation sECTION -->
+    <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="Aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1 class="cart-title">🛒 Your Shopping Cart</h1>
+
+        <div class="cart-layout">
+            <!-- items inside the cart -->
+            <div class="cart-items-section">
+                <h2>Cart Items</h2>
+                <div id="cart-items"></div>
+            </div>
+
+            <!-- Summary of carts -->
+            <div class="cart-summary">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal:</span>
+                    <span class="summary-value" id="subtotal">₱0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping:</span>
+                    <span class="summary-value" id="shipping">₱0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Tax:</span>
+                    <span class="summary-value" id="tax">₱0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">Total:</span>
+                    <span class="summary-value" id="total">₱0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                <a href="index.html" class="continue-shopping">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (always present dapat in every webpages) -->
+    <footer>
+        &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
+    </footer>
+
+    <script>
+        let cart = {};
+
+        function addToCart(name, price) {
+            if (cart[name]) {
+                cart[name].quantity++;
+            } else {
+                cart[name] = { price: price, quantity: 1 };
+            }
+            displayCart();
+        }
+
+        function removeFromCart(name) {
+            delete cart[name];
+            displayCart();
+        }
+
+        function updateQuantity(name, change) {
+            if (cart[name]) {
+                cart[name].quantity += change;
+                if (cart[name].quantity <= 0) {
+                    delete cart[name];
+                }
+            }
+            displayCart();
+        }
+
+        function displayCart() {
+            let cartItems = document.getElementById("cart-items");
+            let subtotal = 0;
+            cartItems.innerHTML = "";
+
+            if (Object.keys(cart).length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Add some amazing products to get started!</p>
+                    </div>
+                `;
+                document.getElementById("checkoutBtn").disabled = true;
+                document.getElementById("subtotal").innerText = "₱0.00";
+                document.getElementById("shipping").innerText = "₱0.00";
+                document.getElementById("tax").innerText = "₱0.00";
+                document.getElementById("total").innerText = "₱0.00";
+                return;
+            }
+
+            for (let item in cart) {
+                let itemTotal = cart[item].price * cart[item].quantity;
+                subtotal += itemTotal;
+
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <div class="item-details">
+                            <div class="item-name">${item}</div>
+                            <div class="item-price">₱${cart[item].price.toLocaleString('en-PH')}</div>
+                        </div>
+                        <div class="quantity-control">
+                            <button onclick="updateQuantity('${item}', -1)">−</button>
+                            <span class="quantity-display">${cart[item].quantity}</span>
+                            <button onclick="updateQuantity('${item}', 1)">+</button>
+                        </div>
+                        <div class="item-total">
+                            <div class="item-total-price">₱${itemTotal.toLocaleString('en-PH')}</div>
+                            <button class="remove-btn" onclick="removeFromCart('${item}')">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // codeblock for calculating the total cost of items
+            const shipping = subtotal > 0 ? 250 : 0;
+            const tax = subtotal * 0.12; // 12% VAT
+            const total = subtotal + shipping + tax;
+
+            document.getElementById("subtotal").innerText = "₱" + subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById("shipping").innerText = "₱" + shipping.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById("tax").innerText = "₱" + tax.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById("total").innerText = "₱" + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            document.getElementById("checkoutBtn").disabled = false;
+        }
+
+        function proceedToCheckout() {
+            if (Object.keys(cart).length === 0) {
+                alert("Your cart is empty!");
+            } else {
+                // Save cart data to sessionStorage (no database yet. Local HTML storage lang)
+                sessionStorage.setItem('cartData', JSON.stringify(cart));
+                // Redirect to payment page
+                window.location.href = 'payment.html';
+            }
+        }
+
+        // START(initialize) cart display
+        displayCart();
+
+        // Active page highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const currentPage = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

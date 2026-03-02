@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphicInfinity - Order Summary & Payment</title>
+    <link rel="stylesheet" href="payment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>GraphicInfinity - Order Confirmation</h1>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+        <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- PROGRESS INDICATOR -->
+        <div class="progress-container fade-in">
+            <div class="progress-step active">
+                <div class="step-number">1</div>
+                <p>Cart Review</p>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step active">
+                <div class="step-number">2</div>
+                <p>Order Summary</p>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-number">3</div>
+                <p>Confirmation</p>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT WRAPPER -->
+        <div class="content-wrapper">
+
+            <!-- LEFT SECTION - ORDER ITEMS -->
+            <div class="order-section slide-in-left">
+                <div class="section-header">
+                    <i class="fas fa-box"></i>
+                    <h2>Order Summary</h2>
+                </div>
+                <div class="border-line"></div>
+
+                <div class="items-container" id="order-items">
+                    <!-- Items will be dynamically populated from cart -->
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-name">ASUS TUF RTX 4070 OC 12GB</div>
+                            <div class="item-spec">Gaming GPU • High Performance</div>
+                        </div>
+                        <div class="item-qty">x1</div>
+                        <div class="item-price">₱45,499.00</div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-name">MSI VENTUS RTX 3050 8GB</div>
+                            <div class="item-spec">Gaming GPU • Budget Friendly</div>
+                        </div>
+                        <div class="item-qty">x2</div>
+                        <div class="item-price">₱22,318.00</div>
+                    </div>
+                </div>
+
+                <!-- PRICING BREAKDOWN -->
+                <div class="pricing-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₱67,817.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Shipping:</span>
+                        <span id="shipping">₱250.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Tax (12%):</span>
+                        <span id="tax">₱8,158.04</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Amount:</span>
+                        <span id="total">₱76,225.04</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SECTION - PAYMENT METHOD & DELIVERY -->
+            <div class="payment-section slide-in-right">
+                <div class="section-header">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h2>Payment & Delivery</h2>
+                </div>
+                <div class="border-line"></div>
+
+                <!-- COD PAYMENT SECTION -->
+                <div class="payment-method-box">
+                    <div class="payment-method-header">
+                        <i class="fas fa-info-circle"></i>
+                        <h3>Payment Method</h3>
+                    </div>
+                    <div class="payment-method-content">
+                        <div class="cod-badge">
+                            <i class="fas fa-check"></i>
+                            <span>Cash on Delivery (COD)</span>
+                        </div>
+                        <p class="payment-description">Pay when your order arrives at your doorstep</p>
+                    </div>
+                </div>
+
+                <!-- DELIVERY ADDRESS SECTION -->
+                <div class="delivery-section">
+                    <div class="delivery-header">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Delivery Address</h3>
+                    </div>
+                    <div class="address-box">
+                        <p><strong>John Doe</strong></p>
+                        <p>1600 Caniogan, Pasig City</p>
+                        <p>Metro Manila, Philippines 1600</p>
+                        <p>Phone: +63 991 993 9693</p>
+                    </div>
+                    <a href="#" class="change-address">
+                        <i class="fas fa-edit"></i> Change Address
+                    </a>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmOrder()">
+                        Confirm Order <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
+    </footer>
+
+    <script>
+        // Page Load Animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+
+        // Back to Cart
+        function goBack() {
+            window.location.href = 'cart.html';
+        }
+
+        // Confirm Order
+        function confirmOrder() {
+            alert('Order confirmed with Cash on Delivery (COD)!');
+            // TODO: Send order to backend/database
+            // window.location.href = 'order-confirmation.html';
+        }
+
+        // Load cart data from sessionStorage (if available)
+        function loadCartData() {
+            const cartData = sessionStorage.getItem('cartData');
+            if (cartData) {
+                const cart = JSON.parse(cartData);
+                console.log('Cart data loaded:', cart);
+                // TODO: Populate items from cart
+            }
+        }
+
+        loadCartData();
+    </script>
+
+</body>
+</html>
