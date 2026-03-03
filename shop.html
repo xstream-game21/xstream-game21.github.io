@@ -24,7 +24,7 @@
         <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a>
     </nav>
 
-    <!-- MAIN CONTAINER (taas ng products) -->
+    <!-- MAIN CONTAINER -->
     <div class="container">
 
         <!-- SIDEBAR - FILTERS -->
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <!-- PRICE FILTER (reference ko ay easypc) -->
+                <!-- PRICE FILTER -->
                 <div class="filter-group">
                     <label class="filter-title">
                         <i class="fas fa-tag"></i> Price Range
@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <!-- SORT FILTER (also from easypc with our own style) -->
+                <!-- SORT FILTER -->
                 <div class="filter-group">
                     <label class="filter-title">
                         <i class="fas fa-sort"></i> Sort By
@@ -121,7 +121,7 @@
                                 <p class="product-specs">8GB GDDR6 • 128-bit</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱25,000</h4>
-                                    <button class="btn-add" onclick="addToCart('MSI VENTUS RTX 3050', 25000, 'gpus/RTX3050.png')">
+                                    <button class="btn-add" onclick="addToCart('MSI VENTUS RTX 3050 8GB', 25000, 'gpus/RTX3050.png', '8GB GDDR6 • 128-bit')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -138,7 +138,7 @@
                                 <p class="product-specs">8GB GDDR6 • 128-bit</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱30,299</h4>
-                                    <button class="btn-add" onclick="addToCart('GALAX RTX 4060 Ti', 30299, 'gpus/RTX4060.png')">
+                                    <button class="btn-add" onclick="addToCart('GALAX RTX 4060 Ti 8GB', 30299, 'gpus/RTX4060.png', '8GB GDDR6 • 128-bit')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -155,7 +155,7 @@
                                 <p class="product-specs">12GB GDDR6X • 192-bit</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱45,499</h4>
-                                    <button class="btn-add" onclick="addToCart('ASUS TUF RTX 4070', 45499, 'gpus/RTX4070.png')">
+                                    <button class="btn-add" onclick="addToCart('ASUS TUF RTX 4070 OC 12GB', 45499, 'gpus/RTX4070.png', '12GB GDDR6X • 192-bit')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -172,7 +172,7 @@
                                 <p class="product-specs">16GB GDDR6X • 256-bit</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱68,999</h4>
-                                    <button class="btn-add" onclick="addToCart('MSI SUPRIM RTX 4080', 68999, 'gpus/RTX4080.png')">
+                                    <button class="btn-add" onclick="addToCart('MSI SUPRIM RTX 4080 16GB', 68999, 'gpus/RTX4080.png', '16GB GDDR6X • 256-bit')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -189,7 +189,7 @@
                                 <p class="product-specs">32GB GDDR7 • 576-bit</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱172,000</h4>
-                                    <button class="btn-add" onclick="addToCart('GIGABYTE RTX 5090', 172000, 'gpus/RTX5090.png')">
+                                    <button class="btn-add" onclick="addToCart('GIGABYTE RTX 5090 WINDFORCE 32GB', 172000, 'gpus/RTX5090.png', '32GB GDDR7 • 576-bit')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -219,7 +219,7 @@
                                 <p class="product-specs">16-Core • 5.7GHz • 3D V-Cache</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱22,500</h4>
-                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X3D', 22500, 'cpus/ryzen3d.png')">
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X3D', 22500, 'cpus/ryzen3d.png', '16-Core • 5.7GHz • 3D V-Cache')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -236,7 +236,7 @@
                                 <p class="product-specs">24-Core • 6.0GHz • LGA1700</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱35,000</h4>
-                                    <button class="btn-add" onclick="addToCart('Intel Core i9-14900KF', 35000, 'cpus/intelcore.png')">
+                                    <button class="btn-add" onclick="addToCart('Intel Core i9-14900KF', 35000, 'cpus/intelcore.png', '24-Core • 6.0GHz • LGA1700')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -253,7 +253,7 @@
                                 <p class="product-specs">16-Core • 5.7GHz • AM5</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱35,000</h4>
-                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X', 35000, 'cpus/ryzen.png')">
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 9 9950X', 35000, 'cpus/ryzen.png', '16-Core • 5.7GHz • AM5')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -270,7 +270,7 @@
                                 <p class="product-specs">6-Core • 5.4GHz • AM5</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱18,000</h4>
-                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 5 9600X', 18000, 'cpus/9600X.png')">
+                                    <button class="btn-add" onclick="addToCart('AMD Ryzen 5 9600X', 18000, 'cpus/9600X.png', '6-Core • 5.4GHz • AM5')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -287,7 +287,7 @@
                                 <p class="product-specs">14-Core • 5.1GHz • LGA1700</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱28,000</h4>
-                                    <button class="btn-add" onclick="addToCart('Intel Core i5-13600K', 28000, 'cpus/13600K.png')">
+                                    <button class="btn-add" onclick="addToCart('Intel Core i5-13600K', 28000, 'cpus/13600K.png', '14-Core • 5.1GHz • LGA1700')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -304,7 +304,7 @@
                                 <p class="product-specs">14-Core • 5.3GHz • LGA1700</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱32,000</h4>
-                                    <button class="btn-add" onclick="addToCart('Intel Core i5-14600K', 32000, 'cpus/14600k.png')">
+                                    <button class="btn-add" onclick="addToCart('Intel Core i5-14600K', 32000, 'cpus/14600k.png', '14-Core • 5.3GHz • LGA1700')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -334,7 +334,7 @@
                                 <p class="product-specs">RTX 4070 • 16GB RAM • 1TB SSD</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱99,999</h4>
-                                    <button class="btn-add" onclick="addToCart('Acer Predator Triton', 99999, 'laptops/PREDATORTRITON.png')">
+                                    <button class="btn-add" onclick="addToCart('Acer Predator Triton', 99999, 'laptops/PREDATORTRITON.png', 'RTX 4070 • 16GB RAM • 1TB SSD')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -351,7 +351,7 @@
                                 <p class="product-specs">RTX 4080 • 32GB RAM • 1TB SSD</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱159,999</h4>
-                                    <button class="btn-add" onclick="addToCart('MSI Raider GE78', 159999, 'laptops/MSIGE78.png')">
+                                    <button class="btn-add" onclick="addToCart('MSI Raider GE78', 159999, 'laptops/MSIGE78.png', 'RTX 4080 • 32GB RAM • 1TB SSD')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -368,7 +368,7 @@
                                 <p class="product-specs">RTX 4080 • 32GB RAM • 1TB SSD</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱179,999</h4>
-                                    <button class="btn-add" onclick="addToCart('LENOVO Legion Pro 9i', 179999, 'laptops/LENOVOLEGION9i.png')">
+                                    <button class="btn-add" onclick="addToCart('LENOVO Legion Pro 9i', 179999, 'laptops/LENOVOLEGION9i.png', 'RTX 4080 • 32GB RAM • 1TB SSD')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -385,7 +385,7 @@
                                 <p class="product-specs">RTX 4090 • 16GB RAM • 1TB SSD</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱199,999</h4>
-                                    <button class="btn-add" onclick="addToCart('ASUS ROG Strix G16', 199999, 'laptops/ROG16.png')">
+                                    <button class="btn-add" onclick="addToCart('ASUS ROG Strix G16', 199999, 'laptops/ROG16.png', 'RTX 4090 • 16GB RAM • 1TB SSD')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -402,7 +402,7 @@
                                 <p class="product-specs">RTX 4090 • 32GB RAM • 2TB SSD</p>
                                 <div class="product-footer">
                                     <h4 class="price">₱219,999</h4>
-                                    <button class="btn-add" onclick="addToCart('DELL Alienware M18', 219999, 'laptops/ALIENWAREM18.png')">
+                                    <button class="btn-add" onclick="addToCart('DELL Alienware M18', 219999, 'laptops/ALIENWAREM18.png', 'RTX 4090 • 32GB RAM • 2TB SSD')">
                                         <i class="fas fa-plus"></i> Add
                                     </button>
                                 </div>
@@ -422,6 +422,8 @@
         &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
     </footer>
 
+    <script src="auth.js"></script>
+
     <script>
         // Cart functionality
         function getCart() {
@@ -433,16 +435,28 @@
             updateCartCount();
         }
 
-        function addToCart(productName, price, imageSrc) {
+        function addToCart(productName, price, imageSrc, spec = 'Product') {
+            // Check if user is logged in
+            if (!isUserLoggedIn()) {
+                alert('Please log in to add items to your cart!');
+                window.location.href = 'login.html';
+                return;
+            }
+
             const cart = getCart();
             if (cart[productName]) {
                 cart[productName].quantity++;
             } else {
-                cart[productName] = { price: price, quantity: 1, image: imageSrc };
+                cart[productName] = { 
+                    price: price, 
+                    quantity: 1, 
+                    image: imageSrc,
+                    spec: spec
+                };
             }
             saveCart(cart);
             
-            // Optional: Show notification
+            // Show notification
             showNotification(`${productName} added to cart!`);
         }
 
@@ -553,9 +567,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
         });
-    </script>
 
-    <script>
         // Active page highlighting
         const navLinks = document.querySelectorAll('nav a');
         const currentPage = window.location.href;

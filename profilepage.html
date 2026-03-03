@@ -6,15 +6,16 @@
     <title>GraphicInfinity - My Profile</title>
     <link rel="stylesheet" href="profilepage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="auth.js"></script>
 </head>
 <body>
 
-    <!-- for header, check comment sa css if may babaguhin -->
+    <!-- HEADER -->
     <header>
         <h1>My Profile</h1>
     </header>
 
-    <!-- NAVI SECTION -->
+    <!-- NAVIGATION -->
     <nav>
         <a href="index.html"><i class="fas fa-home"></i> Home</a>
         <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
@@ -23,7 +24,7 @@
         <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
     </nav>
 
-    <!-- MAIN CONTAINER SECTION -->
+    <!-- MAIN CONTAINER -->
     <div class="container">
 
         <!-- PROFILE HEADER SECTION -->
@@ -34,6 +35,8 @@
                 <div class="profile-details slide-in-up">
                     <h2 class="profile-name">Graphic-Infinity</h2>
                     <p class="profile-status">
+                        <i class="fas fa-check-circle"></i>
+                        Active Member
                     </p>
                 </div>
             </div>
@@ -52,26 +55,10 @@
                     <div class="border-line"></div>
 
                     <div class="info-group">
-                        <label>Full Name</label>
+                        <label>Full Name / Username</label>
                         <div class="info-value">
                             <i class="fas fa-user"></i>
-                            <span>Graphic-Infinity</span>
-                        </div>
-                    </div>
-
-                    <div class="info-group">
-                        <label>Age</label>
-                        <div class="info-value">
-                            <i class="fas fa-birthday-cake"></i>
-                            <span>20</span>
-                        </div>
-                    </div>
-
-                    <div class="info-group">
-                        <label>Gender</label>
-                        <div class="info-value">
-                            <i class="fas fa-mars"></i>
-                            <span>Male</span>
+                            <span id="displayUsername">Graphic-Infinity</span>
                         </div>
                     </div>
 
@@ -79,7 +66,23 @@
                         <label>Email</label>
                         <div class="info-value">
                             <i class="fas fa-envelope"></i>
-                            <span>graphicinfinity@gmail.com</span>
+                            <span id="displayEmail">graphicinfinity@gmail.com</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Account Status</label>
+                        <div class="info-value">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Member Since</label>
+                        <div class="info-value">
+                            <i class="fas fa-calendar"></i>
+                            <span id="memberSince">2026</span>
                         </div>
                     </div>
 
@@ -92,7 +95,7 @@
             <!-- RIGHT SECTION - CONTACT & ADDRESS -->
             <div class="info-section slide-in-right">
                 
-                <!-- CONTACT (NO EMAIL) PARA MAS MABILIS  -->
+                <!-- CONTACT INFORMATION -->
                 <div class="section-card">
                     <div class="card-header">
                         <i class="fas fa-phone"></i>
@@ -113,7 +116,7 @@
                     </button>
                 </div>
 
-                <!-- DELIVERY ADDRESS (CAN BE CONFIGURED SA ADDRESS) -->
+                <!-- DELIVERY ADDRESS -->
                 <div class="section-card">
                     <div class="card-header">
                         <i class="fas fa-map-marker-alt"></i>
@@ -141,13 +144,13 @@
 
         <!-- ACTION BUTTONS -->
         <div class="action-section fade-in-delayed">
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" onclick="viewOrders()">
                 <i class="fas fa-history"></i> View Order History
             </button>
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary" onclick="changePassword()">
                 <i class="fas fa-lock"></i> Change Password
             </button>
-            <button class="btn btn-logout">
+            <button class="btn btn-logout" onclick="logout(); return false;">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
@@ -159,19 +162,6 @@
         &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
     </footer>
 
-    <script>
-        // Active page highlighting
-        const navLinks = document.querySelectorAll('nav a');
-        const currentPage = window.location.href;
-
-        navLinks.forEach(link => {
-            if (link.href === currentPage) {
-                link.classList.add('active');
-            }
-        });
-    </script>
-</body>
-
     <!-- MODALS -->
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="modal">
@@ -182,30 +172,16 @@
             </div>
             <form class="modal-form">
                 <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" value="John Doe" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Age</label>
-                        <input type="number" value="25" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <select required>
-                            <option value="male" selected>Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                    <label>Username</label>
+                    <input type="text" id="editUsername" value="John Doe" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" value="john.doe@email.com" required>
+                    <input type="email" id="editEmail" value="john.doe@email.com" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveProfile(event)">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -221,11 +197,11 @@
             <form class="modal-form">
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" value="+63 991 993 9693" required>
+                    <input type="tel" id="editPhone" value="+63 991 993 9693" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editContactModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveContact(event)">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -259,17 +235,38 @@
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editAddressModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveAddress(event)">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+        // Check if user is logged in
+        if (!isUserLoggedIn()) {
+            alert('Please log in to access your profile!');
+            window.location.href = 'login.html';
+        }
+
         // Page Load Animation
         window.addEventListener('load', function() {
             document.body.classList.add('loaded');
         });
+
+        // Display user information
+        function displayUserInfo() {
+            const username = sessionStorage.getItem('username');
+            const email = sessionStorage.getItem('userEmail') || 'graphicinfinity@gmail.com';
+            
+            if (username) {
+                document.querySelector('.profile-name').textContent = username;
+                document.getElementById('displayUsername').textContent = username;
+                document.getElementById('editUsername').value = username;
+            }
+            
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('editEmail').value = email;
+        }
 
         // Modal Functions
         function openModal(modalId) {
@@ -297,6 +294,40 @@
             openModal('editAddressModal');
         }
 
+        function viewOrders() {
+            alert('Order history feature coming soon!');
+        }
+
+        function changePassword() {
+            alert('Change password feature coming soon!');
+        }
+
+        // Save Functions
+        function saveProfile(event) {
+            event.preventDefault();
+            const username = document.getElementById('editUsername').value;
+            const email = document.getElementById('editEmail').value;
+            
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('userEmail', email);
+            
+            alert('Profile updated successfully!');
+            closeModal('editProfileModal');
+            displayUserInfo();
+        }
+
+        function saveContact(event) {
+            event.preventDefault();
+            alert('Contact updated successfully!');
+            closeModal('editContactModal');
+        }
+
+        function saveAddress(event) {
+            event.preventDefault();
+            alert('Address updated successfully!');
+            closeModal('editAddressModal');
+        }
+
         // Close modal when clicking outside
         window.addEventListener('click', function(event) {
             if (event.target.classList.contains('modal')) {
@@ -305,14 +336,19 @@
             }
         });
 
-        // Form submissions
-        document.querySelectorAll('.modal-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Changes saved successfully!');
-                this.closest('.modal').classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+        // Active page highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const currentPage = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserInfo();
         });
     </script>
 

@@ -6,6 +6,7 @@
     <title>GraphicInfinity - Order Summary & Payment</title>
     <link rel="stylesheet" href="payment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="auth.js"></script>
 </head>
 <body>
 
@@ -17,7 +18,7 @@
     <!-- NAVIGATION -->
     <nav>
         <a href="index.html"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
         <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
         <a href="profilepage.html"><i class="fas fa-user"></i> Profile</a>
     </nav>
@@ -54,44 +55,28 @@
                 </div>
                 <div class="border-line"></div>
 
+                <!-- DYNAMIC ITEMS CONTAINER -->
                 <div class="items-container" id="order-items">
                     <!-- Items will be dynamically populated from cart -->
-                    <div class="order-item">
-                        <div class="item-info">
-                            <div class="item-name">ASUS TUF RTX 4070 OC 12GB</div>
-                            <div class="item-spec">Gaming GPU • High Performance</div>
-                        </div>
-                        <div class="item-qty">x1</div>
-                        <div class="item-price">₱45,499.00</div>
-                    </div>
-
-                    <div class="order-item">
-                        <div class="item-info">
-                            <div class="item-name">MSI VENTUS RTX 3050 8GB</div>
-                            <div class="item-spec">Gaming GPU • Budget Friendly</div>
-                        </div>
-                        <div class="item-qty">x2</div>
-                        <div class="item-price">₱22,318.00</div>
-                    </div>
                 </div>
 
                 <!-- PRICING BREAKDOWN -->
                 <div class="pricing-breakdown">
                     <div class="price-row">
                         <span>Subtotal:</span>
-                        <span id="subtotal">₱67,817.00</span>
+                        <span id="subtotal">₱0.00</span>
                     </div>
                     <div class="price-row">
                         <span>Shipping:</span>
-                        <span id="shipping">₱250.00</span>
+                        <span id="shipping">₱0.00</span>
                     </div>
                     <div class="price-row">
                         <span>Tax (12%):</span>
-                        <span id="tax">₱8,158.04</span>
+                        <span id="tax">₱0.00</span>
                     </div>
                     <div class="price-row total">
                         <span>Total Amount:</span>
-                        <span id="total">₱76,225.04</span>
+                        <span id="total">₱0.00</span>
                     </div>
                 </div>
             </div>
@@ -126,7 +111,7 @@
                         <h3>Delivery Address</h3>
                     </div>
                     <div class="address-box">
-                        <p><strong>John Doe</strong></p>
+                        <p><strong id="deliveryName">Graphic-Infinity</strong></p>
                         <p>1600 Caniogan, Pasig City</p>
                         <p>Metro Manila, Philippines 1600</p>
                         <p>Phone: +63 991 993 9693</p>
@@ -157,6 +142,17 @@
     </footer>
 
     <script>
+        // Check if user is logged in
+        if (!isUserLoggedIn()) {
+            alert('Please log in to access checkout!');
+            window.location.href = 'login.html';
+        }
+
+        // Get cart from sessionStorage
+        function getCart() {
+            return JSON.parse(sessionStorage.getItem('cartData')) || {};
+        }
+
         // Page Load Animation
         window.addEventListener('load', function() {
             document.body.classList.add('loaded');
@@ -169,22 +165,81 @@
 
         // Confirm Order
         function confirmOrder() {
-            alert('Order confirmed with Cash on Delivery (COD)!');
-            // TODO: Send order to backend/database
-            // window.location.href = 'order-confirmation.html';
+            const username = sessionStorage.getItem('username');
+            const cart = getCart();
+            const total = document.getElementById('total').innerText;
+            
+            alert(`Order confirmed, ${username}!\n\nTotal: ${total}\n\nYour order has been placed with Cash on Delivery (COD).`);
+            
+            // Clear cart after confirmation
+            sessionStorage.removeItem('cartData');
+            
+            // Redirect to home or order confirmation page
+            window.location.href = 'index.html';
         }
 
-        // Load cart data from sessionStorage (if available)
+        // Load and display cart data
         function loadCartData() {
-            const cartData = sessionStorage.getItem('cartData');
-            if (cartData) {
-                const cart = JSON.parse(cartData);
-                console.log('Cart data loaded:', cart);
-                // TODO: Populate items from cart
+            const cart = getCart();
+            
+            // Check if cart is empty
+            if (Object.keys(cart).length === 0) {
+                alert('Your cart is empty! Redirecting to cart page...');
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            const orderItemsContainer = document.getElementById('order-items');
+            let subtotal = 0;
+
+            // Populate order items
+            for (let itemName in cart) {
+                const item = cart[itemName];
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                const orderItemHTML = `
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-name">${itemName}</div>
+                            <div class="item-spec">${item.spec || 'Product'}</div>
+                        </div>
+                        <div class="item-qty">x${item.quantity}</div>
+                        <div class="item-price">₱${itemTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    </div>
+                `;
+                orderItemsContainer.innerHTML += orderItemHTML;
+            }
+
+            // Calculate totals
+            const shipping = 250;
+            const tax = subtotal * 0.12;
+            const total = subtotal + shipping + tax;
+
+            // Update pricing breakdown
+            document.getElementById('subtotal').innerText = 
+                '₱' + subtotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('shipping').innerText = 
+                '₱' + shipping.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('tax').innerText = 
+                '₱' + tax.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('total').innerText = 
+                '₱' + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // Display logged-in user's name in delivery address
+        function displayUserInfo() {
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                document.getElementById('deliveryName').innerText = username;
             }
         }
 
-        loadCartData();
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartData();
+            displayUserInfo();
+        });
     </script>
 
 </body>

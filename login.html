@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Signup Form</title>
+    <title>GraphicInfinity - Login & Register</title>
     <link rel="stylesheet" href="style_login.css">
 </head>
 <body>
     <div class="container">
         <div class="curved-shape"></div>
         <div class="curved-shape2"></div>
+        
+        <!-- LOGIN FORM -->
         <div class="form-box Login">
             <h2 class="animation" style="--D:0; --S:21">Login</h2>
-            <form action="#">
+            <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="input-box animation" style="--D:1; --S:22">
-                    <input type="text" required>
+                    <input type="text" id="loginUsername" required>
                     <label for="">Username</label>
                     <box-icon type='solid' name='user' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--D:2; --S:23">
-                    <input type="password" required>
+                    <input type="password" id="loginPassword" required>
                     <label for="">Password</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
@@ -31,25 +33,28 @@
                 </div>
             </form>
         </div>
+        
         <div class="info-content Login">
             <h2 class="animation" style="--D:0; --S:20">WELCOME BACK!</h2>
             <p class="animation" style="--D:1; --S:21">We are happy to have you with us again. If you need anything, we are here to help.</p>
         </div>
+        
+        <!-- REGISTER FORM -->
         <div class="form-box Register">
             <h2 class="animation" style="--li:17; --S:0">Register</h2>
-            <form action="#">
+            <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="input-box animation" style="--li:18; --S:1">
-                    <input type="text" required>
+                    <input type="text" id="regUsername" required>
                     <label for="">Username</label>
                     <box-icon type='solid' name='user' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--li:19; --S:2">
-                    <input type="email" required>
+                    <input type="email" id="regEmail" required>
                     <label for="">Email</label>
                     <box-icon name='envelope' type='solid' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--li:19; --S:3">
-                    <input type="password" required>
+                    <input type="password" id="regPassword" required>
                     <label for="">Password</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
@@ -61,12 +66,50 @@
                 </div>
             </form>
         </div>
+        
         <div class="info-content Register">
             <h2 class="animation" style="--li:17; --S:0">WELCOME!</h2>
-            <p class="animation" style="--li:18; --S:1">We’re delighted to have you here. If you need any assistance, feel free to reach out.</p>
+            <p class="animation" style="--li:18; --S:1">We're delighted to have you here. If you need any assistance, feel free to reach out.</p>
         </div>
     </div>
+
     <script src="login_landingpage.js"></script>
+    <script src="auth.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    
+    <script>
+        // Handle Login
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (username && password) {
+                // Set user as logged in
+                setUserLoggedIn(username);
+                alert(`Welcome back, ${username}!`);
+                
+                // Redirect to home
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Handle Register
+        function handleRegister(event) {
+            event.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (username && email && password) {
+                // Set user as logged in
+                setUserLoggedIn(username);
+                alert(`Account created! Welcome, ${username}!`);
+                
+                // Redirect to home
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>
