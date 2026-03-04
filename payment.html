@@ -6,6 +6,7 @@
     <title>GraphicInfinity - Order Summary & Payment</title>
     <link rel="stylesheet" href="payment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="users.js"></script>
     <script src="auth.js"></script>
 </head>
 <body>
@@ -111,13 +112,15 @@
                         <h3>Delivery Address</h3>
                     </div>
                     <div class="address-box">
-                        <p><strong id="deliveryName">Graphic-Infinity</strong></p>
-                        <p>1600 Caniogan, Pasig City</p>
-                        <p>Metro Manila, Philippines 1600</p>
-                        <p>Phone: +63 991 993 9693</p>
+                        <p><strong id="deliveryName">Loading...</strong></p>
+                        <p id="deliveryStreet">Loading...</p>
+                        <p id="deliveryCity">Loading...</p>
+                        <p id="deliveryRegion">Loading...</p>
+                        <p id="deliveryPostal" style="display:none;">Postal Code: <span id="deliveryPostalValue"></span></p>
+                        <p id="deliveryPhone">Loading...</p>
                     </div>
-                    <a href="#" class="change-address">
-                        <i class="fas fa-edit"></i> Change Address
+                    <a href="profilepage.html" class="change-address">
+                        <i class="fas fa-edit"></i> Edit Address
                     </a>
                 </div>
 
@@ -141,6 +144,155 @@
         &copy; 2026 GraphicInfinity E-Commerce Store. All rights reserved.
     </footer>
 
+    <!-- ORDER CONFIRMATION MODAL -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content confirmation-content">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Order Confirmed!</h2>
+            <p class="confirmation-message">Thank you for buying! 🎉</p>
+            
+            <div class="order-details">
+                <p><strong>Order ID:</strong> <span id="confirmOrderId">#123456</span></p>
+                <p><strong>Total Amount:</strong> <span id="confirmTotal">₱0.00</span></p>
+                <p><strong>Payment Method:</strong> Cash on Delivery (COD)</p>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                    Your order will be delivered within 5-7 business days. A confirmation email has been sent to your registered email address.
+                </p>
+            </div>
+
+            <div class="confirmation-buttons">
+                <button class="btn btn-primary" onclick="goHome()">
+                    <i class="fas fa-home"></i> Back to Home
+                </button>
+                <button class="btn btn-secondary" onclick="viewOrders()">
+                    <i class="fas fa-history"></i> View Orders
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styles for Confirmation */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .confirmation-content {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .confirmation-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .confirmation-content h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-message {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .order-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        .order-details p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .order-details strong {
+            color: #28a745;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .confirmation-buttons .btn {
+            flex: 1;
+            padding: 12px 20px;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Product Image in Order Items */
+        .order-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-right: 15px;
+            background-color: #f5f5f5;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
     <script>
         // Check if user is logged in
         if (!isUserLoggedIn()) {
@@ -163,19 +315,20 @@
             window.location.href = 'cart.html';
         }
 
-        // Confirm Order
-        function confirmOrder() {
-            const username = sessionStorage.getItem('username');
-            const cart = getCart();
-            const total = document.getElementById('total').innerText;
-            
-            alert(`Order confirmed, ${username}!\n\nTotal: ${total}\n\nYour order has been placed with Cash on Delivery (COD).`);
-            
-            // Clear cart after confirmation
+        // Go Home after confirmation
+        function goHome() {
             sessionStorage.removeItem('cartData');
-            
-            // Redirect to home or order confirmation page
             window.location.href = 'index.html';
+        }
+
+        // View Orders (placeholder)
+        function viewOrders() {
+            alert('Order history feature coming soon!');
+        }
+
+        // Generate random order ID
+        function generateOrderId() {
+            return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
         }
 
         // Load and display cart data
@@ -192,7 +345,7 @@
             const orderItemsContainer = document.getElementById('order-items');
             let subtotal = 0;
 
-            // Populate order items
+            // Populate order items with images
             for (let itemName in cart) {
                 const item = cart[itemName];
                 const itemTotal = item.price * item.quantity;
@@ -200,11 +353,12 @@
 
                 const orderItemHTML = `
                     <div class="order-item">
+                        <img src="${item.image}" alt="${itemName}" class="order-item-image">
                         <div class="item-info">
                             <div class="item-name">${itemName}</div>
                             <div class="item-spec">${item.spec || 'Product'}</div>
+                            <div class="item-qty" style="font-size: 0.9em; color: #666;">Quantity: x${item.quantity}</div>
                         </div>
-                        <div class="item-qty">x${item.quantity}</div>
                         <div class="item-price">₱${itemTotal.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                     </div>
                 `;
@@ -225,20 +379,55 @@
                 '₱' + tax.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('total').innerText = 
                 '₱' + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            // Store total for confirmation modal
+            sessionStorage.setItem('orderTotal', total.toFixed(2));
         }
 
-        // Display logged-in user's name in delivery address
-        function displayUserInfo() {
-            const username = sessionStorage.getItem('username');
-            if (username) {
-                document.getElementById('deliveryName').innerText = username;
-            }
+        // Display user's delivery address from profile
+        function displayDeliveryAddress() {
+            const username = sessionStorage.getItem('username') || 'Customer';
+            const street = sessionStorage.getItem('userStreet') || 'Not provided';
+            const city = sessionStorage.getItem('userCity') || 'Not provided';
+            const postal = sessionStorage.getItem('userPostal') || 'Not provided';
+            const region = sessionStorage.getItem('userRegion') || 'Not provided';
+            const phone = sessionStorage.getItem('userPhone') || 'Not provided';
+
+            // Display address
+            document.getElementById('deliveryName').innerText = username;
+            document.getElementById('deliveryStreet').innerText = street;
+            document.getElementById('deliveryCity').innerText = `${city}, Philippines ${postal}`;
+            document.getElementById('deliveryRegion').innerText = region;
+            document.getElementById('deliveryPostalValue').innerText = postal;
+            document.getElementById('deliveryPhone').innerText = `Phone: ${phone}`;
+        }
+
+        // Confirm Order - Show Confirmation Modal
+        function confirmOrder() {
+            const cart = getCart();
+            const total = sessionStorage.getItem('orderTotal') || '0.00';
+            const orderId = generateOrderId();
+
+            // Show confirmation modal
+            const modal = document.getElementById('confirmationModal');
+            document.getElementById('confirmOrderId').innerText = orderId;
+            document.getElementById('confirmTotal').innerText = '₱' + parseFloat(total).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            modal.classList.add('active');
+
+            // Log order details
+            console.log('Order Confirmed:', {
+                orderId: orderId,
+                items: Object.keys(cart),
+                total: total,
+                timestamp: new Date().toISOString()
+            });
         }
 
         // Run on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadCartData();
-            displayUserInfo();
+            displayDeliveryAddress();
         });
     </script>
 

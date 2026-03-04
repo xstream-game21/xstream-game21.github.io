@@ -16,15 +16,17 @@
             <h2 class="animation" style="--D:0; --S:21">Login</h2>
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="input-box animation" style="--D:1; --S:22">
-                    <input type="text" id="loginUsername" required>
+                    <input type="text" id="loginUsername" placeholder=" " required>
                     <label for="">Username</label>
                     <box-icon type='solid' name='user' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--D:2; --S:23">
-                    <input type="password" id="loginPassword" required>
+                    <input type="password" id="loginPassword" placeholder=" " required>
                     <label for="">Password</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
+                <div class="error-message" id="loginError" style="display:none; color: #ff6b6b; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b;"></div>
+                <div class="success-message" id="loginSuccess" style="display:none; color: #6bcf7f; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(107, 207, 127, 0.1); border-left: 3px solid #6bcf7f;"></div>
                 <div class="input-box animation" style="--D:3; --S:24">
                     <button class="btn" type="submit">Login</button>
                 </div>
@@ -44,20 +46,27 @@
             <h2 class="animation" style="--li:17; --S:0">Register</h2>
             <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="input-box animation" style="--li:18; --S:1">
-                    <input type="text" id="regUsername" required>
+                    <input type="text" id="regUsername" placeholder=" " required>
                     <label for="">Username</label>
                     <box-icon type='solid' name='user' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--li:19; --S:2">
-                    <input type="email" id="regEmail" required>
+                    <input type="email" id="regEmail" placeholder=" " required>
                     <label for="">Email</label>
                     <box-icon name='envelope' type='solid' color="gray"></box-icon>
                 </div>
                 <div class="input-box animation" style="--li:19; --S:3">
-                    <input type="password" id="regPassword" required>
-                    <label for="">Password</label>
+                    <input type="password" id="regPassword" placeholder=" " required>
+                    <label for="">Password (min 6 characters)</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
+                <div class="input-box animation" style="--li:19; --S:3">
+                    <input type="password" id="regConfirmPassword" placeholder=" " required>
+                    <label for="">Confirm Password</label>
+                    <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
+                </div>
+                <div class="error-message" id="registerError" style="display:none; color: #ff6b6b; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b;"></div>
+                <div class="success-message" id="registerSuccess" style="display:none; color: #6bcf7f; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(107, 207, 127, 0.1); border-left: 3px solid #6bcf7f;"></div>
                 <div class="input-box animation" style="--li:20; --S:4">
                     <button class="btn" type="submit">Register</button>
                 </div>
@@ -69,11 +78,12 @@
         
         <div class="info-content Register">
             <h2 class="animation" style="--li:17; --S:0">WELCOME!</h2>
-            <p class="animation" style="--li:18; --S:1">We're delighted to have you here. If you need any assistance, feel free to reach out.</p>
+            <p class="animation" style="--li:18; --S:1">Create your account and start shopping with us. We offer the best gaming hardware at competitive prices!</p>
         </div>
     </div>
 
     <script src="login_landingpage.js"></script>
+    <script src="users.js"></script>
     <script src="auth.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     
@@ -81,35 +91,140 @@
         // Handle Login
         function handleLogin(event) {
             event.preventDefault();
-            const username = document.getElementById('loginUsername').value;
+            const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            const successDiv = document.getElementById('loginSuccess');
 
-            if (username && password) {
-                // Set user as logged in
-                setUserLoggedIn(username);
-                alert(`Welcome back, ${username}!`);
-                
-                // Redirect to home
-                window.location.href = 'index.html';
+            // Clear previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            errorDiv.innerText = '';
+            successDiv.innerText = '';
+
+            // Validate input
+            if (!username || !password) {
+                showLoginError('Please enter both username and password!');
+                return;
             }
+
+            // Check user credentials
+            const loginResult = userDB.loginUser(username, password);
+
+            if (loginResult.success) {
+                // Set user as logged in (session storage)
+                setUserLoggedIn(username);
+                sessionStorage.setItem('userEmail', loginResult.user.email);
+                
+                // Show success message
+                successDiv.innerText = '✅ ' + loginResult.message;
+                successDiv.style.display = 'block';
+
+                // Redirect after brief delay
+                setTimeout(() => {
+                    alert(`Welcome back, ${username}! 🎉`);
+                    window.location.href = 'index.html';
+                }, 500);
+            } else {
+                showLoginError(loginResult.message);
+            }
+        }
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.innerText = '❌ ' + message;
+            errorDiv.style.display = 'block';
         }
 
         // Handle Register
         function handleRegister(event) {
             event.preventDefault();
-            const username = document.getElementById('regUsername').value;
-            const email = document.getElementById('regEmail').value;
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const errorDiv = document.getElementById('registerError');
+            const successDiv = document.getElementById('registerSuccess');
 
-            if (username && email && password) {
-                // Set user as logged in
-                setUserLoggedIn(username);
-                alert(`Account created! Welcome, ${username}!`);
+            // Clear previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            errorDiv.innerText = '';
+            successDiv.innerText = '';
+
+            // Validate input
+            if (!username || !email || !password || !confirmPassword) {
+                showRegisterError('Please fill in all fields!');
+                return;
+            }
+
+            // Check username format
+            if (username.length < 3) {
+                showRegisterError('Username must be at least 3 characters long!');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+                showRegisterError('Username can only contain letters, numbers, underscores, and hyphens!');
+                return;
+            }
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                showRegisterError('Passwords do not match!');
+                return;
+            }
+
+            // Check password length
+            if (password.length < 6) {
+                showRegisterError('Password must be at least 6 characters long!');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showRegisterError('Please enter a valid email address!');
+                return;
+            }
+
+            // Register user (saves to localStorage permanently)
+            const registerResult = userDB.registerUser(username, email, password);
+
+            if (registerResult.success) {
+                successDiv.innerText = '✅ ' + registerResult.message;
+                successDiv.style.display = 'block';
                 
-                // Redirect to home
-                window.location.href = 'index.html';
+                // Clear form
+                document.getElementById('registerForm').reset();
+                
+                // Switch to login form after 2 seconds
+                setTimeout(() => {
+                    document.querySelector('.container').classList.remove('active');
+                    
+                    // Pre-fill username
+                    document.getElementById('loginUsername').value = username;
+                    document.getElementById('loginPassword').focus();
+                    
+                    alert(`✅ Account created successfully!\n\nUsername: ${username}\n\nNow log in with your credentials.`);
+                }, 500);
+            } else {
+                showRegisterError(registerResult.message);
             }
         }
+
+        function showRegisterError(message) {
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.innerText = '❌ ' + message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Display registered users count (optional, for testing)
+        document.addEventListener('DOMContentLoaded', () => {
+            const userCount = Object.keys(userDB.getAllUsers()).length;
+            console.log(`Total registered users: ${userCount}`);
+            console.log('Registered usernames:', userDB.getAllUsernames());
+        });
     </script>
 </body>
 </html>

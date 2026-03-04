@@ -6,6 +6,7 @@
     <title>GraphicInfinity - My Profile</title>
     <link rel="stylesheet" href="profilepage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="users.js"></script>
     <script src="auth.js"></script>
 </head>
 <body>
@@ -55,7 +56,7 @@
                     <div class="border-line"></div>
 
                     <div class="info-group">
-                        <label>Full Name / Username</label>
+                        <label>Username</label>
                         <div class="info-value">
                             <i class="fas fa-user"></i>
                             <span id="displayUsername">Graphic-Infinity</span>
@@ -63,10 +64,10 @@
                     </div>
 
                     <div class="info-group">
-                        <label>Email</label>
+                        <label>Email (From Registration)</label>
                         <div class="info-value">
                             <i class="fas fa-envelope"></i>
-                            <span id="displayEmail">graphicinfinity@gmail.com</span>
+                            <span id="displayEmail">user@email.com</span>
                         </div>
                     </div>
 
@@ -87,7 +88,7 @@
                     </div>
 
                     <button class="btn btn-edit" onclick="editProfile()">
-                        <i class="fas fa-edit"></i> Edit Profile
+                        <i class="fas fa-edit"></i> Edit Username
                     </button>
                 </div>
             </div>
@@ -105,14 +106,17 @@
 
                     <div class="info-group">
                         <label>Phone Number</label>
-                        <div class="info-value">
+                        <div id="phoneDisplay" class="info-value">
                             <i class="fas fa-mobile-alt"></i>
-                            <span>+63 991 993 9693</span>
+                            <span id="displayPhone">Not provided yet</span>
+                        </div>
+                        <div id="phoneEmpty" style="padding: 12px; background-color: #fff3cd; border-left: 3px solid #ffc107; border-radius: 6px; color: #856404; font-size: 0.9em;">
+                            <i class="fas fa-info-circle"></i> No phone number added yet. Please add one.
                         </div>
                     </div>
 
                     <button class="btn btn-edit" onclick="editContact()">
-                        <i class="fas fa-edit"></i> Edit Contact
+                        <i class="fas fa-edit"></i> Add/Edit Phone
                     </button>
                 </div>
 
@@ -124,17 +128,23 @@
                     </div>
                     <div class="border-line"></div>
 
-                    <div class="address-card">
+                    <div id="addressDisplay" class="address-card" style="display:none;">
                         <div class="address-type">
                             <i class="fas fa-home"></i>
                             <span>Home Address</span>
                         </div>
-                        <p class="address-text">1600 Caniogan, Pasig City</p>
-                        <p class="address-text">Metro Manila, Philippines 1600</p>
+                        <p class="address-text"><strong>Street:</strong> <span id="displayStreet"></span></p>
+                        <p class="address-text"><strong>City:</strong> <span id="displayCity"></span></p>
+                        <p class="address-text"><strong>Postal Code:</strong> <span id="displayPostal"></span></p>
+                        <p class="address-text"><strong>Region:</strong> <span id="displayRegion"></span></p>
+                    </div>
+
+                    <div id="addressEmpty" style="padding: 12px; background-color: #fff3cd; border-left: 3px solid #ffc107; border-radius: 6px; color: #856404; font-size: 0.9em;">
+                        <i class="fas fa-info-circle"></i> No delivery address added yet. Please add your address.
                     </div>
 
                     <button class="btn btn-edit" onclick="editAddress()">
-                        <i class="fas fa-edit"></i> Edit Address
+                        <i class="fas fa-edit"></i> Add/Edit Address
                     </button>
                 </div>
 
@@ -167,7 +177,7 @@
     <div id="editProfileModal" class="modal">
         <div class="modal-content slide-in-up">
             <div class="modal-header">
-                <h2>Edit Profile</h2>
+                <h2>Edit Username</h2>
                 <button class="close-btn" onclick="closeModal('editProfileModal')">&times;</button>
             </div>
             <form class="modal-form">
@@ -175,13 +185,9 @@
                     <label>Username</label>
                     <input type="text" id="editUsername" value="John Doe" required>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="editEmail" value="john.doe@email.com" required>
-                </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary" onclick="saveProfile(event)">Save Changes</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProfile(event)">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -191,17 +197,17 @@
     <div id="editContactModal" class="modal">
         <div class="modal-content slide-in-up">
             <div class="modal-header">
-                <h2>Edit Contact</h2>
+                <h2>Add/Edit Phone Number</h2>
                 <button class="close-btn" onclick="closeModal('editContactModal')">&times;</button>
             </div>
             <form class="modal-form">
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" id="editPhone" value="+63 991 993 9693" required>
+                    <input type="tel" id="editPhone" placeholder="+63 999 999 9999" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editContactModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary" onclick="saveContact(event)">Save Changes</button>
+                    <button type="button" class="btn btn-primary" onclick="saveContact(event)">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -211,31 +217,60 @@
     <div id="editAddressModal" class="modal">
         <div class="modal-content slide-in-up">
             <div class="modal-header">
-                <h2>Edit Delivery Address</h2>
+                <h2>Add/Edit Delivery Address</h2>
                 <button class="close-btn" onclick="closeModal('editAddressModal')">&times;</button>
             </div>
             <form class="modal-form">
                 <div class="form-group">
                     <label>Street Address</label>
-                    <input type="text" value="1600 Caniogan, Pasig City" required>
+                    <input type="text" id="editStreet" placeholder="e.g., 1600 Caniogan" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>City</label>
-                        <input type="text" value="Pasig City" required>
+                        <input type="text" id="editCity" placeholder="e.g., Pasig City" required>
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="text" value="1600" required>
+                        <input type="text" id="editPostal" placeholder="e.g., 1600" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Region</label>
-                    <input type="text" value="Metro Manila, Philippines" required>
+                    <input type="text" id="editRegion" placeholder="e.g., Metro Manila, Philippines" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editAddressModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary" onclick="saveAddress(event)">Save Changes</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAddress(event)">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content slide-in-up">
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter your current password" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password (min 6 characters)</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required>
+                </div>
+                <div class="error-message" id="passwordError" style="display:none; color: #ff6b6b; font-size: 0.9em; padding: 10px; border-radius: 6px; background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b;"></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('changePasswordModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNewPassword(event)">Change Password</button>
                 </div>
             </form>
         </div>
@@ -256,8 +291,14 @@
         // Display user information
         function displayUserInfo() {
             const username = sessionStorage.getItem('username');
-            const email = sessionStorage.getItem('userEmail') || 'graphicinfinity@gmail.com';
+            const email = sessionStorage.getItem('userEmail') || 'Not set';
+            const phone = sessionStorage.getItem('userPhone') || '';
+            const street = sessionStorage.getItem('userStreet') || '';
+            const city = sessionStorage.getItem('userCity') || '';
+            const postal = sessionStorage.getItem('userPostal') || '';
+            const region = sessionStorage.getItem('userRegion') || '';
             
+            // Display username and email (from registration)
             if (username) {
                 document.querySelector('.profile-name').textContent = username;
                 document.getElementById('displayUsername').textContent = username;
@@ -265,7 +306,41 @@
             }
             
             document.getElementById('displayEmail').textContent = email;
-            document.getElementById('editEmail').value = email;
+
+            // Display phone (optional - added by user)
+            if (phone) {
+                document.getElementById('phoneEmpty').style.display = 'none';
+                document.getElementById('phoneDisplay').style.display = 'flex';
+                document.getElementById('displayPhone').textContent = phone;
+                document.getElementById('editPhone').value = phone;
+            } else {
+                document.getElementById('phoneEmpty').style.display = 'block';
+                document.getElementById('phoneDisplay').style.display = 'none';
+                document.getElementById('editPhone').value = '';
+            }
+
+            // Display address (optional - added by user)
+            if (street && city && postal && region) {
+                document.getElementById('addressEmpty').style.display = 'none';
+                document.getElementById('addressDisplay').style.display = 'block';
+                document.getElementById('displayStreet').textContent = street;
+                document.getElementById('displayCity').textContent = city;
+                document.getElementById('displayPostal').textContent = postal;
+                document.getElementById('displayRegion').textContent = region;
+                
+                document.getElementById('editStreet').value = street;
+                document.getElementById('editCity').value = city;
+                document.getElementById('editPostal').value = postal;
+                document.getElementById('editRegion').value = region;
+            } else {
+                document.getElementById('addressEmpty').style.display = 'block';
+                document.getElementById('addressDisplay').style.display = 'none';
+                
+                document.getElementById('editStreet').value = '';
+                document.getElementById('editCity').value = '';
+                document.getElementById('editPostal').value = '';
+                document.getElementById('editRegion').value = '';
+            }
         }
 
         // Modal Functions
@@ -299,33 +374,123 @@
         }
 
         function changePassword() {
-            alert('Change password feature coming soon!');
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+            openModal('changePasswordModal');
         }
 
         // Save Functions
         function saveProfile(event) {
             event.preventDefault();
-            const username = document.getElementById('editUsername').value;
-            const email = document.getElementById('editEmail').value;
+            const username = document.getElementById('editUsername').value.trim();
+            
+            // Validate
+            if (!username) {
+                alert('Username cannot be empty!');
+                return;
+            }
+
+            if (username.length < 3) {
+                alert('Username must be at least 3 characters long!');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+                alert('Username can only contain letters, numbers, underscores, and hyphens!');
+                return;
+            }
             
             sessionStorage.setItem('username', username);
-            sessionStorage.setItem('userEmail', email);
-            
-            alert('Profile updated successfully!');
+            alert('✅ Username updated successfully!');
             closeModal('editProfileModal');
             displayUserInfo();
         }
 
         function saveContact(event) {
             event.preventDefault();
-            alert('Contact updated successfully!');
+            const phone = document.getElementById('editPhone').value.trim();
+
+            // Validate
+            if (!phone) {
+                alert('Please enter a phone number!');
+                return;
+            }
+
+            sessionStorage.setItem('userPhone', phone);
+            alert('✅ Phone number saved successfully!');
             closeModal('editContactModal');
+            displayUserInfo();
         }
 
         function saveAddress(event) {
             event.preventDefault();
-            alert('Address updated successfully!');
+            const street = document.getElementById('editStreet').value.trim();
+            const city = document.getElementById('editCity').value.trim();
+            const postal = document.getElementById('editPostal').value.trim();
+            const region = document.getElementById('editRegion').value.trim();
+
+            // Validate
+            if (!street || !city || !postal || !region) {
+                alert('Please fill in all address fields!');
+                return;
+            }
+
+            sessionStorage.setItem('userStreet', street);
+            sessionStorage.setItem('userCity', city);
+            sessionStorage.setItem('userPostal', postal);
+            sessionStorage.setItem('userRegion', region);
+
+            alert('✅ Address saved successfully!');
             closeModal('editAddressModal');
+            displayUserInfo();
+        }
+
+        function saveNewPassword(event) {
+            event.preventDefault();
+            const username = sessionStorage.getItem('username');
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            const errorDiv = document.getElementById('passwordError');
+
+            errorDiv.style.display = 'none';
+            errorDiv.innerText = '';
+
+            // Validate input
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                showPasswordError('Please fill in all password fields!');
+                return;
+            }
+
+            // Check if new passwords match
+            if (newPassword !== confirmNewPassword) {
+                showPasswordError('New passwords do not match!');
+                return;
+            }
+
+            // Check password length
+            if (newPassword.length < 6) {
+                showPasswordError('New password must be at least 6 characters long!');
+                return;
+            }
+
+            // Attempt to change password
+            const result = userDB.changePassword(username, currentPassword, newPassword);
+
+            if (result.success) {
+                alert('✅ ' + result.message);
+                closeModal('changePasswordModal');
+            } else {
+                showPasswordError(result.message);
+            }
+        }
+
+        function showPasswordError(message) {
+            const errorDiv = document.getElementById('passwordError');
+            errorDiv.innerText = '❌ ' + message;
+            errorDiv.style.display = 'block';
         }
 
         // Close modal when clicking outside

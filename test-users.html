@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Users Database</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="users.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #28a745;
+        }
+        .user-card {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #20c757;
+        }
+        .btn-danger {
+            background: #ff6b6b;
+        }
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-users"></i> User Database Test</h1>
+        
+        <h2>Register Test User</h2>
+        <button class="btn" onclick="addTestUser()">Add Test User (test123/test@email.com)</button>
+        <button class="btn btn-danger" onclick="clearAllUsers()">Clear All Users</button>
+
+        <h2>Registered Users</h2>
+        <div id="usersList"></div>
+
+        <h2>Test Login</h2>
+        <button class="btn" onclick="testLogin('test123', 'test123')">Test Login (Correct Password)</button>
+        <button class="btn btn-danger" onclick="testLogin('test123', 'wrongpassword')">Test Login (Wrong Password)</button>
+        <button class="btn btn-danger" onclick="testLogin('nonexistent', 'password')">Test Login (Non-existent User)</button>
+
+        <div id="testResult" style="margin-top: 20px; padding: 15px; border-radius: 4px; display: none;"></div>
+    </div>
+
+    <script>
+        function displayUsers() {
+            const users = userDB.getAllUsers();
+            const usersList = document.getElementById('usersList');
+            
+            if (Object.keys(users).length === 0) {
+                usersList.innerHTML = '<p style="color: #999;">No users registered yet.</p>';
+                return;
+            }
+
+            usersList.innerHTML = '';
+            for (let username in users) {
+                const user = users[username];
+                usersList.innerHTML += `
+                    <div class="user-card">
+                        <strong>${user.username}</strong><br>
+                        Email: ${user.email}<br>
+                        Created: ${new Date(user.createdAt).toLocaleString()}<br>
+                        <button class="btn btn-danger" onclick="deleteTestUser('${username}')">Delete</button>
+                    </div>
+                `;
+            }
+        }
+
+        function addTestUser() {
+            const result = userDB.registerUser('test123', 'test@email.com', 'test123');
+            showTestResult(result);
+            displayUsers();
+        }
+
+        function deleteTestUser(username) {
+            const result = userDB.deleteUser(username);
+            alert(result.message);
+            displayUsers();
+        }
+
+        function clearAllUsers() {
+            if (confirm('Are you sure you want to clear all users?')) {
+                localStorage.removeItem('graphicinfinity_users');
+                userDB.initializeDatabase();
+                alert('All users cleared!');
+                displayUsers();
+            }
+        }
+
+        function testLogin(username, password) {
+            const result = userDB.loginUser(username, password);
+            showTestResult(result);
+        }
+
+        function showTestResult(result) {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            if (result.success) {
+                resultDiv.style.backgroundColor = '#d4edda';
+                resultDiv.style.color = '#155724';
+                resultDiv.innerHTML = `<strong>✅ Success:</strong> ${result.message}`;
+            } else {
+                resultDiv.style.backgroundColor = '#f8d7da';
+                resultDiv.style.color = '#721c24';
+                resultDiv.innerHTML = `<strong>❌ Error:</strong> ${result.message}`;
+            }
+        }
+
+        // Display users on page load
+        displayUsers();
+    </script>
+</body>
+</html>
