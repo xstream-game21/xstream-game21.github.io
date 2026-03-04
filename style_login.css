@@ -18,8 +18,8 @@
   
  .container{ 
      position: relative; 
-     width: 750px; 
-     height: 450px; 
+     width: 850px; 
+     height: 700px; 
      border: 2px solid #28a745; 
      box-shadow: 0 0 25px #28a745; 
      overflow: hidden; 
@@ -33,6 +33,8 @@
      display: flex; 
      justify-content: center; 
      flex-direction: column; 
+     z-index: -1; 
+     z-index: 2; 
  } 
   
  .form-box.Login{ 
@@ -56,7 +58,7 @@
  .form-box.Register{ 
      /* display: none; */ 
      right: 0; 
-     padding: 0 60px; 
+     padding: 0 40px; /* Padding already correct, no change needed */ 
  } 
   
  .form-box.Register .animation{ 
@@ -216,7 +218,7 @@
      /* display: none; */ 
      left: 0; 
      text-align: left; 
-     padding: 0 150px 60px 38px; 
+     padding: 0 150px 60px 40px; 
      pointer-events: none; 
  } 
   
@@ -249,7 +251,7 @@
      position: absolute; 
      right: 0; 
      top: -5px; 
-     height: 600px; 
+     height: 650px; 
      width: 850px; 
      background: linear-gradient(45deg, #25252b, #e46033); 
      /*transform: rotate(10deg) skewY(40deg);*/ 
@@ -282,3 +284,61 @@
      transform: rotate(-11deg) skewY(-41deg); 
      transition-delay: 1.2s; 
  }
+
+.password-strength-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8em;
+    transition: all 0.3s ease;
+    opacity: 0;
+    height: 0;
+}
+
+.password-strength-status.weak {
+    background-color: #ff4d4d;
+    opacity: 1;
+    height: auto;
+}
+
+.password-strength-status.medium {
+    background-color: #ffcc00;
+    opacity: 1;
+    height: auto;
+}
+
+.password-strength-status.strong {
+    background-color: #28a745;
+    opacity: 1;
+    height: auto;
+}
+
+.password-match-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8em;
+    transition: all 0.3s ease;
+    opacity: 0;
+    height: 0;
+}
+
+.password-match-status.matched {
+    background-color: #28a745;
+    opacity: 1;
+    height: auto;
+}
+
+.password-match-status.not-matched {
+    background-color: #ff4d4d;
+    opacity: 1;
+    height: auto;
+}

@@ -60,11 +60,13 @@
                     <label for="">Password (min 6 characters)</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
+                <div id="password-strength-status" class="password-strength-status"></div>
                 <div class="input-box animation" style="--li:19; --S:3">
                     <input type="password" id="regConfirmPassword" placeholder=" " required>
                     <label for="">Confirm Password</label>
                     <box-icon name='lock-alt' type='solid' color="gray"></box-icon>
                 </div>
+                <div id="password-match-status" class="password-match-status"></div>
                 <div class="error-message" id="registerError" style="display:none; color: #ff6b6b; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b;"></div>
                 <div class="success-message" id="registerSuccess" style="display:none; color: #6bcf7f; font-size: 0.9em; margin-top: 10px; padding: 10px; border-radius: 6px; background-color: rgba(107, 207, 127, 0.1); border-left: 3px solid #6bcf7f;"></div>
                 <div class="input-box animation" style="--li:20; --S:4">
@@ -164,6 +166,11 @@
                 return;
             }
 
+            if (username.includes(' ')) {
+                showRegisterError('Username cannot contain spaces!');
+                return;
+            }
+
             if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
                 showRegisterError('Username can only contain letters, numbers, underscores, and hyphens!');
                 return;
@@ -198,15 +205,14 @@
                 // Clear form
                 document.getElementById('registerForm').reset();
                 
-                // Switch to login form after 2 seconds
+                // Switch to login form after a short delay
                 setTimeout(() => {
+                    clearRegisterError(); // Clear all registration notifications
                     document.querySelector('.container').classList.remove('active');
                     
                     // Pre-fill username
                     document.getElementById('loginUsername').value = username;
                     document.getElementById('loginPassword').focus();
-                    
-                    alert(`✅ Account created successfully!\n\nUsername: ${username}\n\nNow log in with your credentials.`);
                 }, 500);
             } else {
                 showRegisterError(registerResult.message);
@@ -219,11 +225,85 @@
             errorDiv.style.display = 'block';
         }
 
+        function checkPasswordStrength(password) {
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecialChar = /[!@#$%^&*]/.test(password);
+
+            let score = 0;
+            if (hasLowerCase) score++;
+            if (hasUpperCase) score++;
+            if (hasNumber) score++;
+            if (hasSpecialChar) score++;
+
+            // Strong: 12+ characters and all four character types
+            if (password.length >= 12 && score === 4) {
+                return 'strong';
+            }
+            
+            // Medium: 8+ characters and at least 3 character types
+            if (password.length >= 8 && score >= 3) {
+                return 'medium';
+            }
+
+            // Weak: Anything else
+            return 'weak';
+        }
+
         // Display registered users count (optional, for testing)
         document.addEventListener('DOMContentLoaded', () => {
             const userCount = Object.keys(userDB.getAllUsers()).length;
             console.log(`Total registered users: ${userCount}`);
             console.log('Registered usernames:', userDB.getAllUsernames());
+
+            const regPasswordInput = document.getElementById('regPassword');
+            const regConfirmPasswordInput = document.getElementById('regConfirmPassword');
+            const strengthStatus = document.getElementById('password-strength-status');
+            const matchStatus = document.getElementById('password-match-status');
+
+            function checkPasswords() {
+                const password = regPasswordInput.value;
+                const confirmPassword = regConfirmPasswordInput.value;
+
+                // Make the match status visible when the user starts typing
+                if (confirmPassword.length > 0) {
+                    matchStatus.style.display = 'block';
+                } else {
+                    matchStatus.style.display = 'none';
+                }
+
+                if (password === confirmPassword) {
+                    matchStatus.className = 'password-match-status matched';
+                    matchStatus.innerText = '✅ Passwords match';
+                } else {
+                    matchStatus.className = 'password-match-status not-matched';
+                    matchStatus.innerText = '❌ Passwords do not match';
+                }
+            }
+
+            regPasswordInput.addEventListener('input', () => {
+                const password = regPasswordInput.value;
+                
+                if (password.length === 0) {
+                    strengthStatus.style.display = 'none';
+                    strengthStatus.className = 'password-strength-status';
+                    strengthStatus.innerText = '';
+                    checkPasswords(); // Also check match status
+                    return;
+                }
+
+                // Make the strength status visible
+                strengthStatus.style.display = 'block';
+
+                const strengthLevel = checkPasswordStrength(password);
+                
+                strengthStatus.className = `password-strength-status ${strengthLevel}`;
+                strengthStatus.innerText = `Strength: ${strengthLevel.charAt(0).toUpperCase() + strengthLevel.slice(1)}`;
+                checkPasswords(); // Also check match status
+            });
+
+            regConfirmPasswordInput.addEventListener('input', checkPasswords);
         });
     </script>
 </body>
